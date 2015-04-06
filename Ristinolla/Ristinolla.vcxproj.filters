@@ -1,0 +1,108 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source">
+      <UniqueIdentifier>{2417df41-8750-46bb-aeba-157bb7aefe4a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Include">
+      <UniqueIdentifier>{f250f8f9-4f9d-43c3-bcf6-8d210eac7427}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Include\Component">
+      <UniqueIdentifier>{6e46221f-1944-45be-96a1-ca0160f89f71}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Component">
+      <UniqueIdentifier>{b0778e54-381d-437b-a295-c541d1807405}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Include\System">
+      <UniqueIdentifier>{60d087ce-b967-414f-8161-dd1ee3a04f7b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\System">
+      <UniqueIdentifier>{c93fadaa-db6f-4675-83d9-a02653166bdb}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="BoardComponent.cpp">
+      <Filter>Source\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="Component.cpp">
+      <Filter>Source\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderComponent.cpp">
+      <Filter>Source\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="TransformComponent.cpp">
+      <Filter>Source\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="BoardComponentFactory.cpp">
+      <Filter>Source\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderComponentFactory.cpp">
+      <Filter>Source\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="TransformComponentFactory.cpp">
+      <Filter>Source\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="Board.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="HumanSystem.cpp">
+      <Filter>Source\System</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerSystem.cpp">
+      <Filter>Source\System</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderSystem.cpp">
+      <Filter>Source\System</Filter>
+    </ClCompile>
+    <ClCompile Include="WinSystem.cpp">
+      <Filter>Source\System</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="GameObject.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="BoardComponent.h">
+      <Filter>Include\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Component.h">
+      <Filter>Include\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderComponent.h">
+      <Filter>Include\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="TransformComponent.h">
+      <Filter>Include\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="BoardComponentFactory.h">
+      <Filter>Include\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderComponentFactory.h">
+      <Filter>Include\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="TransformComponentFactory.h">
+      <Filter>Include\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Board.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerSystem.h">
+      <Filter>Include\System</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderSystem.h">
+      <Filter>Include\System</Filter>
+    </ClInclude>
+    <ClInclude Include="HumanSystem.h">
+      <Filter>Include\System</Filter>
+    </ClInclude>
+    <ClInclude Include="WinSystem.h">
+      <Filter>Include\System</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
