@@ -12,7 +12,11 @@ public:
 	std::string getMessage() { return mMessage; };
 
 private:
-	int countLineSize(PlayerSystem* player);
+	int countLongestLine(PlayerSystem* player);
+    int countVertical(PlayerSystem* player);
+    int countHorizontal(PlayerSystem* player);
+    int countDiagonal1(PlayerSystem* player);
+    int countDiagonal2(PlayerSystem* player);
 
 	Board* mBoard;
 	std::string mMessage;

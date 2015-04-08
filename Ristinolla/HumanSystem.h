@@ -19,8 +19,7 @@ private:
 	bool checkClickPos();
 	sf::Vector2f getMousePos();
 	bool findClickedTile(sf::Vector2i& tilePosition);
-	void addMark(sf::Vector2i tilePosition);
-
+	
 	sf::Window* mWindow;
 	bool mButtonWasDown;
 

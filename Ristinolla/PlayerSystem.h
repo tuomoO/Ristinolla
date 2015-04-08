@@ -23,6 +23,8 @@ public:
 	GameObject* getLastMove() { return mLastMove; };
 
 protected:
+    void addMark(sf::Vector2i tilePosition);
+
 	std::vector<GameObject*>* mMyMarks;
 	const std::vector<GameObject*>* mOpponentMarks;
 	const std::vector<GameObject*>* mTiles;

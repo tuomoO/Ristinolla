@@ -1,5 +1,5 @@
 #include "HumanSystem.h"
-#include "BoardComponentFactory.h"
+#include "BoardComponent.h"
 
 using namespace std;
 using namespace sf;
@@ -74,14 +74,4 @@ bool HumanSystem::findClickedTile(Vector2i& tilePosition)
 		}
 	}
 	return false;
-}
-
-void HumanSystem::addMark(Vector2i tilePosition)
-{
-	BoardComponentFactory boardFactory;
-	GameObject* obj = new GameObject();
-	obj->add(mRenderFactory->make());
-	obj->add(boardFactory.make(tilePosition));
-	mMyMarks->push_back(obj);
-	mLastMove = obj;
 }

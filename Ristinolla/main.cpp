@@ -3,6 +3,7 @@
 #include "GameObject.h"
 #include "RenderSystem.h"
 #include "HumanSystem.h"
+#include "ComputerSystem.h"
 #include "TransformComponentFactory.h"
 #include "RenderComponentFactory.h"
 #include "BoardComponentFactory.h"
@@ -15,6 +16,7 @@
 #include <Windows.h>
 #include <sstream>
 #include <iomanip>
+#include <time.h>
 
 
 using namespace std;
@@ -23,6 +25,8 @@ using GoIt = vector<GameObject*>::iterator;
 
 int main()
 {
+    srand(time(NULL));
+
 	const int windowWidth = 800;
 	const int windowHeight = 640;
     RenderWindow window(VideoMode(windowWidth, windowHeight), "Ristinolla", Style::Close);
@@ -34,8 +38,9 @@ int main()
 	mouseInfo.setPosition(0, 64);
 
 	//ristinolla
-	Board board(3, 3, 3, 128, 8);
-	board.setPosition(128, 128);
+	//Board board(3, 3, 3, 128, 8);
+    Board board(5, 5, 3, 64, 4);
+    board.setPosition(128, 128);
 	RenderSystem renderSystem = RenderSystem(&window, &board);
 	RenderComponentFactory tileRenderFactory;
 	TransformComponentFactory transformFactory;
@@ -43,12 +48,12 @@ int main()
 
 	vector<GameObject*> tiles;
 	Vector2i boardSize = board.getSize();
-	for (int i = 0; i < boardSize.x * boardSize.y; i++)
+	for (int i = 0; i < boardSize.y; i++)
 	{
 		for (int j = 0; j < boardSize.x; j++)
 		{
 			int x = j;
-			int y = i / boardSize.y;
+			int y = i;
 
 			GameObject* obj = new GameObject();
 			obj->add(boardCompFactory.make(x, y));
@@ -61,8 +66,11 @@ int main()
 	vector<GameObject*> player2Marks;
 	HumanSystem* player1 = new HumanSystem(&player1Marks, &player2Marks, &tiles, &board,
 		new RenderComponentFactory("risti.png", board.getTileSize()), &window);
-	HumanSystem* player2 = new HumanSystem(&player2Marks, &player1Marks, &tiles, &board,
-		new RenderComponentFactory("nolla.png", board.getTileSize()), &window);
+	/* HumanSystem* player2 = new HumanSystem(&player2Marks, &player1Marks, &tiles, &board,
+		new RenderComponentFactory("nolla.png", board.getTileSize()), &window);*/
+
+    ComputerSystem* player2 = new ComputerSystem(&player2Marks, &player1Marks, &tiles, &board,
+        new RenderComponentFactory("nolla.png", board.getTileSize()));
 	PlayerSystem* currentPlayer = player1;
 	WinSystem winSystem(&board);
 
@@ -116,8 +124,8 @@ int main()
 					
 					infoString.append(currentPlayer->getMessage());
 					playerInfo.setString(infoString);
-					currentTurn++;
 				}
+                currentTurn++;
 			}
 		}
 		

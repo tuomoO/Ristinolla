@@ -1,4 +1,5 @@
 #include "PlayerSystem.h"
+#include "BoardComponentFactory.h"
 
 using namespace std;
 using namespace sf;
@@ -16,4 +17,14 @@ PlayerSystem::~PlayerSystem()
 	for (vector<GameObject*>::iterator i = mMyMarks->begin(); i != mMyMarks->end(); i++)
 		delete *i;
 	mMyMarks->clear();
+}
+
+void PlayerSystem::addMark(Vector2i tilePosition)
+{
+    BoardComponentFactory boardFactory;
+    GameObject* obj = new GameObject();
+    obj->add(mRenderFactory->make());
+    obj->add(boardFactory.make(tilePosition));
+    mMyMarks->push_back(obj);
+    mLastMove = obj;
 }

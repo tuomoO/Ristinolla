@@ -63,6 +63,9 @@
     <ClCompile Include="WinSystem.cpp">
       <Filter>Source\System</Filter>
     </ClCompile>
+    <ClCompile Include="ComputerSystem.cpp">
+      <Filter>Source\System</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameObject.h">
@@ -102,6 +105,9 @@
       <Filter>Include\System</Filter>
     </ClInclude>
     <ClInclude Include="WinSystem.h">
+      <Filter>Include\System</Filter>
+    </ClInclude>
+    <ClInclude Include="ComputerSystem.h">
       <Filter>Include\System</Filter>
     </ClInclude>
   </ItemGroup>
