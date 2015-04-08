@@ -66,6 +66,9 @@
     <ClCompile Include="ComputerSystem.cpp">
       <Filter>Source\System</Filter>
     </ClCompile>
+    <ClCompile Include="Game.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameObject.h">
@@ -109,6 +112,9 @@
     </ClInclude>
     <ClInclude Include="ComputerSystem.h">
       <Filter>Include\System</Filter>
+    </ClInclude>
+    <ClInclude Include="Game.h">
+      <Filter>Include</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

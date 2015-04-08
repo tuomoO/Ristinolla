@@ -8,7 +8,7 @@ class RenderComponentFactory
 {
 public:
 	RenderComponentFactory();
-	RenderComponentFactory(std::string path, int tileSize);
+	RenderComponentFactory(std::string path, sf::Color color);
 	~RenderComponentFactory();
 
 	RenderComponent* make(float x, float y, bool centerOrigin = true);
@@ -19,5 +19,5 @@ private:
 	RenderComponent* setShape(float x, float y, bool centerOrigin);
 
 	sf::Texture* mTexture;
-	int mTileSize;
+	sf::Color mColor;
 };

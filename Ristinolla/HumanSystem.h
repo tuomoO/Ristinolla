@@ -5,11 +5,7 @@
 class HumanSystem : public PlayerSystem
 {
 public:
-	HumanSystem(std::vector<GameObject*>* my,
-		std::vector<GameObject*>* opponent,
-		std::vector<GameObject*>* tiles,
-		Board* board,
-		RenderComponentFactory* renderFactory, sf::Window* window);
+	HumanSystem(std::string texturePath, sf::Color color, sf::Window* window);
 	~HumanSystem();
 
 	bool update();

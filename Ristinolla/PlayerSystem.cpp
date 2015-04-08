@@ -4,27 +4,35 @@
 using namespace std;
 using namespace sf;
 
-PlayerSystem::PlayerSystem(vector<GameObject*>* my, vector<GameObject*>* opponent,
-	vector<GameObject*>* tiles, Board* board, RenderComponentFactory* renderFactory)
-	: mMyMarks(my), mOpponentMarks(opponent), mTiles(tiles), mBoard(board), mRenderFactory(renderFactory), mLastMove(nullptr)
+PlayerSystem::PlayerSystem(string texturePath, Color color)
+	: mLastMove(nullptr)
 {
+	mRenderFactory = new RenderComponentFactory(texturePath, color);
 }
 
 
 PlayerSystem::~PlayerSystem()
 {
-	delete mRenderFactory;
-	for (vector<GameObject*>::iterator i = mMyMarks->begin(); i != mMyMarks->end(); i++)
+	for (vector<GameObject*>::iterator i = mMyMarks.begin(); i != mMyMarks.end(); i++)
 		delete *i;
-	mMyMarks->clear();
+	mMyMarks.clear();
+	delete mRenderFactory;
+}
+
+void PlayerSystem::initialize(Board* board, PlayerSystem* opponent)
+{
+	mOpponent = opponent;
+	mBoard = board;
+
+	mInitialized = true;
 }
 
 void PlayerSystem::addMark(Vector2i tilePosition)
 {
     BoardComponentFactory boardFactory;
     GameObject* obj = new GameObject();
-    obj->add(mRenderFactory->make());
+    obj->add(mRenderFactory->make(mBoard->getTileSize()));
     obj->add(boardFactory.make(tilePosition));
-    mMyMarks->push_back(obj);
+    mMyMarks.push_back(obj);
     mLastMove = obj;
 }

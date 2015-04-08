@@ -6,9 +6,8 @@ using namespace sf;
 using ConstIte = vector<GameObject*>::const_iterator;
 using Ite = vector<GameObject*>::iterator;
 
-HumanSystem::HumanSystem(vector<GameObject*>* my, vector<GameObject*>* opponent,
-	vector<GameObject*>* tiles, Board* board, RenderComponentFactory* renderFactory, Window* window)
-: PlayerSystem(my, opponent, tiles, board, renderFactory), mWindow(window), mButtonWasDown(false)
+HumanSystem::HumanSystem(string texturePath, Color color, Window* window)
+	: PlayerSystem(texturePath, color), mWindow(window), mButtonWasDown(false)
 {
 }
 
@@ -37,12 +36,13 @@ bool HumanSystem::checkClickPos()
 	if (findClickedTile(tilePosition))
 	{
 		// checking if the tile is empty
-		for (Ite i = mMyMarks->begin(); i != mMyMarks->end(); i++)
+		for (Ite i = mMyMarks.begin(); i != mMyMarks.end(); i++)
 		{
 			if ((*i)->getComponent<BoardComponent>()->getPosition() == tilePosition)
 				return false;
 		}
-		for (ConstIte i = mOpponentMarks->begin(); i != mOpponentMarks->end(); i++)
+		vector<GameObject*>* opponentsMarks = mOpponent->getMarks();
+		for (ConstIte i = opponentsMarks->begin(); i != opponentsMarks->end(); i++)
 		{
 			if ((*i)->getComponent<BoardComponent>()->getPosition() == tilePosition)
 				return false;
@@ -62,7 +62,8 @@ Vector2f HumanSystem::getMousePos()
 
 bool HumanSystem::findClickedTile(Vector2i& tilePosition)
 {
-	for (ConstIte i = mTiles->begin(); i != mTiles->end(); i++)
+	vector<GameObject*>* tiles = mBoard->getTiles();
+	for (ConstIte i = tiles->begin(); i != tiles->end(); i++)
 	{
 		RectangleShape shape = *(*i)->getComponent<RenderComponent>()->getDrawable();
 		Vector2i boardCoords = (*i)->getComponent<BoardComponent>()->getPosition();

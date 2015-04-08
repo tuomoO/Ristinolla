@@ -6,6 +6,7 @@
 #include "BoardComponent.h"
 #include "GameObject.h"
 #include "Board.h"
+#include "PlayerSystem.h"
 
 class RenderSystem
 {
@@ -14,6 +15,8 @@ public:
 	~RenderSystem();
 
 	void draw(GameObject* gameObject);
+	void draw(PlayerSystem* player);
+	void draw(Board* board);
 	void swapBuffers();
 
 private:

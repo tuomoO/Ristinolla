@@ -2,6 +2,7 @@
 
 using namespace sf;
 using namespace std;
+using GoIt = vector<GameObject*>::iterator;
 
 RenderSystem::RenderSystem(RenderWindow* window, Board* board)
 :mWindow(window), mBoard(board)
@@ -38,6 +39,22 @@ void RenderSystem::draw(GameObject* gameObject)
 
 		mWindow->draw(shape);
 	}
+}
+
+
+void RenderSystem::draw(PlayerSystem* player)
+{
+	vector<GameObject*>* marks = player->getMarks();
+	for (GoIt i = marks->begin(); i != marks->end(); i++)
+		draw(*i);
+}
+
+
+void RenderSystem::draw(Board* board)
+{
+	vector<GameObject*>* marks = board->getTiles();
+	for (GoIt i = marks->begin(); i != marks->end(); i++)
+		draw(*i);
 }
 
 

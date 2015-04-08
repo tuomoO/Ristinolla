@@ -6,8 +6,8 @@ using namespace sf;
 using ConstIte = vector<GameObject*>::const_iterator;
 using Ite = vector<GameObject*>::iterator;
 
-ComputerSystem::ComputerSystem(vector<GameObject*>* my, vector<GameObject*>* opponent, vector<GameObject*>* tiles, Board* board, RenderComponentFactory* renderFactory)
-    : PlayerSystem(my, opponent, tiles, board, renderFactory)
+ComputerSystem::ComputerSystem(string texturePath, Color color)
+    : PlayerSystem(texturePath, color)
 {
 }
 
@@ -36,12 +36,13 @@ bool ComputerSystem::makeLine()
     Vector2i tilePosition = Vector2i(rand() % mBoard->getSize().x,
         rand() % mBoard->getSize().y);
 
-    for (Ite i = mMyMarks->begin(); i != mMyMarks->end(); i++)
+    for (Ite i = mMyMarks.begin(); i != mMyMarks.end(); i++)
     {
         if ((*i)->getComponent<BoardComponent>()->getPosition() == tilePosition)
             return false;
     }
-    for (ConstIte i = mOpponentMarks->begin(); i != mOpponentMarks->end(); i++)
+	vector<GameObject*>* opponentsMarks = mOpponent->getMarks();
+    for (ConstIte i = opponentsMarks->begin(); i != opponentsMarks->end(); i++)
     {
         if ((*i)->getComponent<BoardComponent>()->getPosition() == tilePosition)
             return false;

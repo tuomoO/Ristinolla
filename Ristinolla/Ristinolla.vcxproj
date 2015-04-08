@@ -92,6 +92,7 @@
     <ClCompile Include="BoardComponentFactory.cpp" />
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="ComputerSystem.cpp" />
+    <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="HumanSystem.cpp" />
     <ClCompile Include="main.cpp" />
@@ -109,6 +110,7 @@
     <ClInclude Include="BoardComponentFactory.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="ComputerSystem.h" />
+    <ClInclude Include="Game.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="HumanSystem.h" />
     <ClInclude Include="PlayerSystem.h" />

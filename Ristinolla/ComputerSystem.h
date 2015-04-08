@@ -5,11 +5,7 @@
 class ComputerSystem : public PlayerSystem
 {
 public:
-    ComputerSystem(std::vector<GameObject*>* my,
-        std::vector<GameObject*>* opponent,
-        std::vector<GameObject*>* tiles,
-        Board* board,
-        RenderComponentFactory* renderFactory);
+    ComputerSystem(std::string texturePath, sf::Color color);
     ~ComputerSystem();
 
     bool update();

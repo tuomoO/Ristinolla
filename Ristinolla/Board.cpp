@@ -1,4 +1,6 @@
 #include "Board.h"
+#include "RenderComponentFactory.h"
+#include "BoardComponentFactory.h"
 
 using namespace std;
 using namespace sf;
@@ -7,6 +9,21 @@ Board::Board(int width, int height, int winLine, int tileSize, int gap)
 	:mSize(width, height), mWinLineLength(winLine), mTileSize(tileSize), mTileGap(gap)
 {
 	mTileOffset = Vector2i(mPosition.x + mTileSize / 2, mPosition.y + mTileSize / 2);
+	
+	RenderComponentFactory tileRenderFactory;
+	BoardComponentFactory boardCompFactory;
+
+	for (int i = 0; i < mSize.y; i++)
+	{
+		for (int j = 0; j < mSize.x; j++)
+		{
+			GameObject* obj = new GameObject();
+			obj->add(boardCompFactory.make(i, j));
+			obj->add(tileRenderFactory.make(mTileSize));
+			mTiles.push_back(obj);
+		}
+	}
+
 }
 
 
@@ -16,7 +33,9 @@ Board::~Board()
 
 void Board::setPosition(int x, int y)
 {
-	mPosition = Vector2i(x, y);
+	mPosition = Vector2i(
+		x - mSize.x * (mTileSize + mTileGap) / 2,
+		y - mSize.y * (mTileSize + mTileGap) / 2);
 	mTileOffset = Vector2i(mPosition.x + mTileSize / 2, mPosition.y + mTileSize / 2);
 }
 

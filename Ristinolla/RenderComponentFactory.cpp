@@ -4,13 +4,13 @@ using namespace std;
 using namespace sf;
 
 RenderComponentFactory::RenderComponentFactory()
-: mTexture(nullptr), mTileSize(0)
+: mTexture(nullptr), mColor(255, 255, 255)
 {
 
 }
 
-RenderComponentFactory::RenderComponentFactory(string path, int tileSize)
-: mTileSize(tileSize)
+RenderComponentFactory::RenderComponentFactory(string path, sf::Color color)
+: mColor(color)
 {
 	mTexture = new Texture();
 	mTexture->loadFromFile(path);
@@ -32,11 +32,6 @@ RenderComponent* RenderComponentFactory::make(float size, bool centerOrigin)
 	return setShape(size, size, centerOrigin);
 }
 
-RenderComponent* RenderComponentFactory::make()
-{
-	return setShape(mTileSize, mTileSize, true);
-}
-
 RenderComponent* RenderComponentFactory::setShape(float x, float y, bool centerOrigin)
 {
 	RenderComponent* result = new RenderComponent();
@@ -46,5 +41,6 @@ RenderComponent* RenderComponentFactory::setShape(float x, float y, bool centerO
 		result->mShape.setOrigin(x*0.5f, y*0.5f);
 	if (mTexture != nullptr)
 		result->mShape.setTexture(mTexture);
+	result->mShape.setFillColor(mColor);
 	return result;
 }

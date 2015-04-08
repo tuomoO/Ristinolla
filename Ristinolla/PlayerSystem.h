@@ -10,26 +10,28 @@
 class PlayerSystem
 {
 public:
-	PlayerSystem(std::vector<GameObject*>* my,
-		std::vector<GameObject*>* opponent,
-		std::vector<GameObject*>* tiles,
-		Board* board,
-		RenderComponentFactory* renderFactory);
+	PlayerSystem(std::string texturePath, sf::Color color);
 	~PlayerSystem();
+
+	void initialize(Board* board, PlayerSystem* opponent);
+	bool isInitialized() { return mInitialized; };
 
 	virtual bool update() = 0;
 	virtual std::string getMessage() = 0;
-	std::vector<GameObject*>* getMarks(){ return mMyMarks; };
+
+	std::vector<GameObject*>* getMarks(){ return &mMyMarks; };
 	GameObject* getLastMove() { return mLastMove; };
 
 protected:
     void addMark(sf::Vector2i tilePosition);
 
-	std::vector<GameObject*>* mMyMarks;
-	const std::vector<GameObject*>* mOpponentMarks;
-	const std::vector<GameObject*>* mTiles;
+	std::vector<GameObject*> mMyMarks;
+	PlayerSystem* mOpponent;
 	Board* mBoard;
 	RenderComponentFactory* mRenderFactory;
 	GameObject* mLastMove;
+
+private:
+	bool mInitialized;
 };
 
