@@ -72,6 +72,8 @@ int WinSystem::countVertical(PlayerSystem* player)
             if (mark.x == x && mark.y == y)
             {
                 longestLine++;
+				if (player->getLongestVertical().length <= longestLine)
+					player->setLongestVertical(mark.x, mark.y, player->getLongestVertical().x2, player->getLongestVertical().y2, longestLine);
                 found = true;
             }
         }
@@ -93,6 +95,8 @@ int WinSystem::countVertical(PlayerSystem* player)
             if (mark.x == x && mark.y == y)
             {
                 longestLine++;
+				if (player->getLongestVertical().length <= longestLine)
+					player->setLongestVertical(player->getLongestVertical().x1, player->getLongestVertical().y1, mark.x, mark.y, longestLine);
                 found = true;
             }
         }
@@ -124,6 +128,8 @@ int WinSystem::countHorizontal(PlayerSystem* player)
             if (mark.x == x && mark.y == y)
             {
                 longestLine++;
+				if (player->getLongestHorizontal().length <= longestLine)
+					player->setLongestHorizontal(player->getLongestHorizontal().x1, player->getLongestHorizontal().y1, mark.x, mark.y, longestLine);
                 found = true;
             }
         }
@@ -145,6 +151,8 @@ int WinSystem::countHorizontal(PlayerSystem* player)
             if (mark.x == x && mark.y == y)
             {
                 longestLine++;
+				if (player->getLongestHorizontal().length <= longestLine)
+					player->setLongestHorizontal(mark.x, mark.y, player->getLongestHorizontal().x2, player->getLongestHorizontal().y2, longestLine);
                 found = true;
             }
         }

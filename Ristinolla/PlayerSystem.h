@@ -9,6 +9,14 @@
 
 class PlayerSystem
 {
+	struct longestLine {
+
+		int x1;
+		int y1;
+		int x2;
+		int y2;
+		int length;
+	};
 public:
 	PlayerSystem(std::string texturePath, sf::Color color);
 	~PlayerSystem();
@@ -22,8 +30,17 @@ public:
 	std::vector<GameObject*>* getMarks(){ return &mMyMarks; };
 	GameObject* getLastMove() { return mLastMove; };
 
+	void setLongestVertical(int x1, int y1, int x2, int y2, int length);
+	longestLine getLongestVertical(){ return verticalLine; };
+
+	void setLongestHorizontal(int x1, int y1, int x2, int y2, int length);
+	longestLine getLongestHorizontal(){ return horizontalLine; };
+
 protected:
     void addMark(sf::Vector2i tilePosition);
+
+	longestLine verticalLine;
+	longestLine horizontalLine;
 
 	std::vector<GameObject*> mMyMarks;
 	PlayerSystem* mOpponent;
