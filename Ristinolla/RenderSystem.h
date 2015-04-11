@@ -18,6 +18,7 @@ public:
 	void draw(PlayerSystem* player);
 	void draw(Board* board);
 	void swapBuffers();
+	void setBoard(Board* board) { mBoard = board; };
 
 private:
 	sf::RenderWindow* mWindow;

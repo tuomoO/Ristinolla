@@ -49,6 +49,7 @@ bool HumanSystem::checkClickPos()
 		}
 
 		addMark(tilePosition);
+		mBoard->markTile(tilePosition);
 		return true;
 	}
 	return false;

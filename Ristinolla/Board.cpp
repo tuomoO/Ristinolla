@@ -4,6 +4,7 @@
 
 using namespace std;
 using namespace sf;
+using Ite = vector<GameObject*>::iterator;
 
 Board::Board(int width, int height, int winLine, int tileSize, int gap)
 	:mSize(width, height), mWinLineLength(winLine), mTileSize(tileSize), mTileGap(gap)
@@ -21,6 +22,7 @@ Board::Board(int width, int height, int winLine, int tileSize, int gap)
 			obj->add(boardCompFactory.make(i, j));
 			obj->add(tileRenderFactory.make(mTileSize));
 			mTiles.push_back(obj);
+			mFreeTiles.push_back(obj);
 		}
 	}
 
@@ -48,4 +50,23 @@ Vector2f Board::getTilePosition(int x, int y)
 Vector2f Board::getTilePosition(Vector2i coordinates)
 {
 	return getTilePosition(coordinates.x, coordinates.y);
+}
+
+string Board::getMessage()
+{
+	stringstream stream;
+	stream << "Form a row of " << mWinLineLength << ". ";
+	return stream.str();
+}
+
+void Board::markTile(sf::Vector2i position)
+{
+	for (Ite i = mFreeTiles.begin(); i != mFreeTiles.end(); i++)
+	{
+		if ((*i)->getComponent<BoardComponent>()->getPosition() == position)
+		{
+			mFreeTiles.erase(i);
+			break;
+		}
+	}
 }

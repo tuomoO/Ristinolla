@@ -7,7 +7,7 @@ Game::Game(Board* board, PlayerSystem* player1, PlayerSystem* player2)
 : mBoard(board), mPlayer1(player1), mPlayer2(player2), mWinSystem(board), mRunning(true), mTurn(1)
 {
 	mPlayerInTurn = player1;
-	mMessage = "Player 1" + mPlayerInTurn->getMessage();
+	mMessage = mBoard->getMessage() + "Player 1" + mPlayerInTurn->getMessage();
 }
 
 
@@ -35,7 +35,7 @@ void Game::endOfTurn()
 {
 	if (mWinSystem.update(mTurn, mPlayerInTurn))
 	{
-		mMessage = mWinSystem.getMessage();
+		mMessage = mBoard->getMessage() + mWinSystem.getMessage();
 		mRunning = false;
 	}
 	else
@@ -52,7 +52,7 @@ void Game::endOfTurn()
 			msg.append("1");
 		}
 
-		mMessage = msg + mPlayerInTurn->getMessage();
+		mMessage = mBoard->getMessage() + msg + mPlayerInTurn->getMessage();
 	}
 	mTurn++;
 }

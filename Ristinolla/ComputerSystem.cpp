@@ -33,6 +33,10 @@ bool ComputerSystem::update()
 
 bool ComputerSystem::makeLine()
 {
+	vector<GameObject*>* freeTiles = mBoard->getFreeTiles();
+	int index = rand() % freeTiles->size();
+	Vector2i tilePosition(freeTiles->at(index)->getComponent<BoardComponent>()->getPosition());
+	/*
     Vector2i tilePosition = Vector2i(rand() % mBoard->getSize().x,
         rand() % mBoard->getSize().y);
 
@@ -47,8 +51,10 @@ bool ComputerSystem::makeLine()
         if ((*i)->getComponent<BoardComponent>()->getPosition() == tilePosition)
             return false;
     }
-
+	void markTile(int x, int y);
+	*/
     addMark(tilePosition);
+	mBoard->markTile(tilePosition);
     return true;
 }
 

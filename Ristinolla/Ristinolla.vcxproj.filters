@@ -69,6 +69,12 @@
     <ClCompile Include="Game.cpp">
       <Filter>Source</Filter>
     </ClCompile>
+    <ClCompile Include="MainMenu.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Button.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameObject.h">
@@ -114,6 +120,12 @@
       <Filter>Include\System</Filter>
     </ClInclude>
     <ClInclude Include="Game.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="MainMenu.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="Button.h">
       <Filter>Include</Filter>
     </ClInclude>
   </ItemGroup>

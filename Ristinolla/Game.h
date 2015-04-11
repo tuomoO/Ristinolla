@@ -18,6 +18,7 @@ public:
 
 	bool isRunning(){ return mRunning; }
 	std::string getMessage(){ return mMessage; };
+	Board* getBoard(){ return mBoard; };
 
 private:
 	void endOfTurn();
