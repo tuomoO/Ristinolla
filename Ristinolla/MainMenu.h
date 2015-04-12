@@ -3,11 +3,12 @@
 #include "Game.h"
 #include "Button.h"
 #include "ComputerSystem.h"
+#include "Input.h"
 
 class MainMenu
 {
 public:
-	MainMenu(sf::RenderWindow* window, sf::Font* font);
+	MainMenu(sf::RenderWindow* window, Input* input, sf::Font* font);
 	~MainMenu();
 
 	bool update();
@@ -19,12 +20,14 @@ private:
 	void buttonAction(int selection);
 	void switchButtons();
 
-	bool mMouseButtonWasDown;
 	std::vector<Button> mButtons;
 	PlayerSystem* mPlayer1;
 	PlayerSystem* mPlayer2;
+	sf::Texture* mP1Texture;
+	sf::Texture* mP2Texture;
 	Board* mBoard;
 	sf::Font* mFont;
 	sf::RenderWindow* mWindow;
+	Input* mInput;
 };
 

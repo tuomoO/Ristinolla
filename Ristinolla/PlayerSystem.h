@@ -18,7 +18,7 @@ class PlayerSystem
 		int length;
 	};
 public:
-	PlayerSystem(std::string texturePath, sf::Color color);
+	PlayerSystem(sf::Texture* texture, sf::Color color);
 	~PlayerSystem();
 
 	void initialize(Board* board, PlayerSystem* opponent);

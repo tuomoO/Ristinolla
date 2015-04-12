@@ -1,16 +1,7 @@
 #pragma once
 
 #include "Game.h"
-
-#include "RenderSystem.h"
-#include "HumanSystem.h"
-#include "WinSystem.h"
-#include "ComputerSystem.h"
 #include "MainMenu.h"
-
-#include "TransformComponentFactory.h"
-#include "RenderComponentFactory.h"
-#include "BoardComponentFactory.h"
 
 #include <SFML/Graphics.hpp>
 #include <vector>
@@ -35,10 +26,12 @@ int main()
 
 	Font font;
 	font.loadFromFile("arial.ttf");
-	Text message = Text("Player 1 make your move.", font, 36u);
+	Text message = Text("Player 1 make your move.", font, 32u);
 
 	RenderSystem renderSystem(&window);
-	MainMenu menu(&window, &font);
+	Input input(&window);
+	Button resetButton(1, &font, "Quit to main menu", window.getSize().x - 128, 32);
+	MainMenu* menu = new MainMenu(&window, &input, &font);
 	Game* game = nullptr;
 
 	//time
@@ -61,27 +54,41 @@ int main()
         }
         window.clear();
 
+		//update
 		if (game != nullptr)
 		{
-			//update
 			if (game->isRunning())
 				game->update();
-			message.setString(game->getMessage());
-
-			//draw
-			game->draw(&renderSystem);
-			window.draw(message);
-		}
-		else
-		{
-			if (menu.update())
+			else
 			{
-				game = menu.makeGame();
-				renderSystem.setBoard(game->getBoard());
+				if (input.update() && resetButton.update(input.getPosition()))
+				{
+					delete menu;
+					delete game;
+					game = nullptr;
+					menu = new MainMenu(&window, &input, &font);
+				}
 			}
-			menu.draw();
+		}
+		else if (menu->update())
+		{
+			game = menu->makeGame();
+			renderSystem.setBoard(game->getBoard());
 		}
 		
+		//draw
+		if (game != nullptr)
+		{
+			message.setString(game->getMessage());
+			game->draw(&renderSystem);
+			window.draw(message);
+
+			if (!game->isRunning())
+				resetButton.draw(&window);
+		}
+		else
+			menu->draw();
+
 		renderSystem.swapBuffers();
 
 		//time
@@ -101,6 +108,7 @@ int main()
 			fpsTimer = 0;
 		}
     }
+	delete menu;
     return 0;
 }
 

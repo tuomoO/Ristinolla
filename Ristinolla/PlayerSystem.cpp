@@ -4,10 +4,10 @@
 using namespace std;
 using namespace sf;
 
-PlayerSystem::PlayerSystem(string texturePath, Color color)
+PlayerSystem::PlayerSystem(Texture* texture, Color color)
 	: mLastMove(nullptr)
 {
-	mRenderFactory = new RenderComponentFactory(texturePath, color);
+	mRenderFactory = new RenderComponentFactory(texture, color);
 }
 
 

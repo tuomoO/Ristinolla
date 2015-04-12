@@ -26,6 +26,11 @@ bool Button::update(int x, int y)
 	return mShape.getGlobalBounds().contains(Vector2f(x, y));
 }
 
+bool Button::update(Vector2i position)
+{
+	return update(position.x, position.y);
+}
+
 void Button::draw(RenderWindow* window)
 {
 	window->draw(mShape);

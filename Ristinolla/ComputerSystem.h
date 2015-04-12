@@ -5,7 +5,7 @@
 class ComputerSystem : public PlayerSystem
 {
 public:
-    ComputerSystem(std::string texturePath, sf::Color color);
+    ComputerSystem(sf::Texture* texture, sf::Color color);
     ~ComputerSystem();
 
     bool update();

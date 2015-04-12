@@ -11,6 +11,8 @@ public:
 	~Button();
 
 	bool update(int x, int y);
+	bool update(sf::Vector2i position);
+
 	void draw(sf::RenderWindow* window);
 	int getId(){ return mId; };
 

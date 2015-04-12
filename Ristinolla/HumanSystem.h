@@ -1,11 +1,12 @@
 #pragma once
 
 #include "PlayerSystem.h"
+#include "Input.h"
 
 class HumanSystem : public PlayerSystem
 {
 public:
-	HumanSystem(std::string texturePath, sf::Color color, sf::Window* window);
+	HumanSystem(sf::Texture* texture, sf::Color color, Input* input);
 	~HumanSystem();
 
 	bool update();
@@ -13,10 +14,9 @@ public:
 
 private:
 	bool checkClickPos();
-	sf::Vector2f getMousePos();
 	bool findClickedTile(sf::Vector2i& tilePosition);
 	
-	sf::Window* mWindow;
+	Input* mInput;
 	bool mButtonWasDown;
 
 };

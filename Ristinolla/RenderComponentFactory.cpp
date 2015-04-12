@@ -9,12 +9,9 @@ RenderComponentFactory::RenderComponentFactory()
 
 }
 
-RenderComponentFactory::RenderComponentFactory(string path, sf::Color color)
-: mColor(color)
+RenderComponentFactory::RenderComponentFactory(Texture* texture, sf::Color color)
+: mTexture(texture), mColor(color)
 {
-	mTexture = new Texture();
-	mTexture->loadFromFile(path);
-	mTexture->setSmooth(true);
 }
 
 RenderComponentFactory::~RenderComponentFactory()

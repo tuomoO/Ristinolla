@@ -8,7 +8,7 @@ class RenderComponentFactory
 {
 public:
 	RenderComponentFactory();
-	RenderComponentFactory(std::string path, sf::Color color);
+	RenderComponentFactory(sf::Texture* texture, sf::Color color);
 	~RenderComponentFactory();
 
 	RenderComponent* make(float x, float y, bool centerOrigin = true);

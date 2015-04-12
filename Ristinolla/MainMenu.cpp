@@ -4,9 +4,17 @@ using namespace std;
 using namespace sf;
 using Ite = vector<Button>::iterator;
 
-MainMenu::MainMenu(RenderWindow* window, Font* font)
-: mWindow(window), mFont(font), mPlayer1(nullptr), mPlayer2(nullptr), mBoard(nullptr), mMouseButtonWasDown(false)
+MainMenu::MainMenu(RenderWindow* window, Input* input, Font* font)
+: mWindow(window), mInput(input), mFont(font),
+mPlayer1(nullptr), mPlayer2(nullptr), mBoard(nullptr)
 {
+	mP1Texture = new Texture();
+	mP1Texture->loadFromFile("risti.png");
+	mP1Texture->setSmooth(false);
+	mP2Texture = new Texture();
+	mP2Texture->loadFromFile("nolla.png");
+	mP2Texture->setSmooth(false);
+
 	switchButtons();
 }
 
@@ -20,12 +28,9 @@ bool MainMenu::update()
 	if (mPlayer1 != nullptr && mPlayer2 != nullptr && mBoard != nullptr)
 		return true;
 
-	if (Mouse::isButtonPressed(Mouse::Left))
-		mMouseButtonWasDown = true;
-	else if (mMouseButtonWasDown)
+	if (mInput->update())
 	{
-		mMouseButtonWasDown = false;
-		Vector2i mousePosition = Mouse::getPosition(*mWindow);
+		Vector2i mousePosition = mInput->getPosition();
 		for (Ite i = mButtons.begin(); i != mButtons.end(); i++)
 		{
 			if ((*i).update(mousePosition.x, mousePosition.y))
@@ -60,20 +65,20 @@ void MainMenu::buttonAction(int selection)
 	switch (selection)
 	{
 	case 0:
-		mPlayer1 = new HumanSystem("risti.png", Color::Blue, mWindow);
-		mPlayer2 = new ComputerSystem("nolla.png", Color::Red);
+		mPlayer1 = new HumanSystem(mP1Texture, Color::Blue, mInput);
+		mPlayer2 = new ComputerSystem(mP2Texture, Color::Red);
 		switchButtons();
 		break;
 
 	case 1:
-		mPlayer1 = new HumanSystem("risti.png", Color::Blue, mWindow);
-		mPlayer2 = new HumanSystem("nolla.png", Color::Red, mWindow);
+		mPlayer1 = new HumanSystem(mP1Texture, Color::Blue, mInput);
+		mPlayer2 = new HumanSystem(mP2Texture, Color::Red, mInput);
 		switchButtons();
 		break;
 
 	case 2:
-		mPlayer1 = new ComputerSystem("risti.png", Color::Blue);
-		mPlayer2 = new ComputerSystem("nolla.png", Color::Red);
+		mPlayer1 = new ComputerSystem(mP1Texture, Color::Blue);
+		mPlayer2 = new ComputerSystem(mP2Texture, Color::Red);
 		switchButtons();
 		break;
 
