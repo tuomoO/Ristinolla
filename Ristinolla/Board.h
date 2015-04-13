@@ -24,6 +24,7 @@ public:
 	std::string getMessage();
 	void markTile(sf::Vector2i position);
     bool isTileFree(sf::Vector2i position);
+	bool isTileOutBounds(sf::Vector2i position);
 
 private:
 	std::vector<GameObject*> mTiles;

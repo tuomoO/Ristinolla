@@ -3,6 +3,7 @@
 
 using namespace std;
 using namespace sf;
+using Ite = vector<GameObject*>::iterator;
 
 PlayerSystem::PlayerSystem(Texture* texture, Color color)
 	: mLastMove(nullptr)
@@ -24,15 +25,22 @@ void PlayerSystem::initialize(Board* board, PlayerSystem* opponent)
 	mOpponent = opponent;
 	mBoard = board;
 	verticalLine.length = 0;
+	verticalLine.dir = Vertical;
 	horizontalLine.length = 0;
+	horizontalLine.dir = Horizontal;
     diagonalLine1.length = 0;
+	diagonalLine1.dir = Diagonal1;
     diagonalLine2.length = 0;
+	diagonalLine2.dir = Diagonal2;
 
 	mInitialized = true;
 }
 
 void PlayerSystem::addMark(Vector2i tilePosition)
 {
+	if (mMyMarks.size() == 0)
+		initializeLongestLines(tilePosition);
+
     BoardComponentFactory boardFactory;
     GameObject* obj = new GameObject();
     obj->add(mRenderFactory->make(mBoard->getTileSize()));
@@ -42,15 +50,45 @@ void PlayerSystem::addMark(Vector2i tilePosition)
     mLastMove = obj;
 }
 
-int PlayerSystem::getLongestLineLength()
+void PlayerSystem::initializeLongestLines(Vector2i position)
 {
-    int result = verticalLine.length;
-    if (horizontalLine.length > result)
-        result = horizontalLine.length;
-    if (diagonalLine1.length > result)
-        result = diagonalLine1.length;
-    if (diagonalLine2.length > result)
-        result = diagonalLine1.length;
+	int x = position.x;
+	int y = position.y;
+	verticalLine.x1 = x;
+	verticalLine.x2 = x;
+	verticalLine.y1 = y;
+	verticalLine.y2 = y;
+	verticalLine.length = 1;
+
+	horizontalLine.x1 = x;
+	horizontalLine.x2 = x;
+	horizontalLine.y1 = y;
+	horizontalLine.y2 = y;
+	horizontalLine.length = 1;
+
+	diagonalLine1.x1 = x;
+	diagonalLine1.x2 = x;
+	diagonalLine1.y1 = y;
+	diagonalLine1.y2 = y;
+	diagonalLine1.length = 1;
+
+	diagonalLine2.x1 = x;
+	diagonalLine2.x2 = x;
+	diagonalLine2.y1 = y;
+	diagonalLine2.y2 = y;
+	diagonalLine2.length = 1;
+
+}
+
+LongestLine* PlayerSystem::getBestLine()
+{
+	LongestLine* result = &verticalLine;
+    if (horizontalLine.length >= result->length)
+        result = &horizontalLine;
+    if (diagonalLine1.length >= result->length)
+        result = &diagonalLine1;
+    if (diagonalLine2.length >= result->length)
+        result = &diagonalLine2;
 
     return result;
 }
@@ -71,4 +109,25 @@ void PlayerSystem::setLongestHorizontal(int x1, int y1, int x2, int y2, int leng
 	horizontalLine.x2 = x2;
 	horizontalLine.y2 = y2;
 	horizontalLine.length = length;
+}
+
+bool PlayerSystem::isTileMine(Vector2i position)
+{
+	for (Ite i = mMyMarks.begin(); i != mMyMarks.end(); i++)
+	{
+		if ((*i)->getComponent<BoardComponent>()->getPosition() == position)
+			return true;
+	}
+	return false;
+}
+
+bool PlayerSystem::isTileOpponents(Vector2i position)
+{
+	vector<GameObject*>* marks = mOpponent->getMarks();
+	for (Ite i = marks->begin(); i != marks->end(); i++)
+	{
+		if ((*i)->getComponent<BoardComponent>()->getPosition() == position)
+			return true;
+	}
+	return false;
 }

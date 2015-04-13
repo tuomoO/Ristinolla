@@ -16,6 +16,7 @@ WinSystem::~WinSystem()
 
 bool WinSystem::update(int turn, PlayerSystem* player)
 {
+	/*
 	if (turn >= (mBoard->getWinLineLength() * 2) -1)
 	{
         if (countLongestLine(player) >= mBoard->getWinLineLength())
@@ -34,6 +35,22 @@ bool WinSystem::update(int turn, PlayerSystem* player)
         mMessage = "Tie!";
         return true;
     }
+	*/
+	if (countLongestLine(player) >= mBoard->getWinLineLength())
+	{
+		turn % 2 == 0 ? mMessage = "Player 2 wins!" : mMessage = "Player 1 wins!";
+		return true;
+	}
+	if (turn >= mBoard->getSize().x * mBoard->getSize().y)
+	{
+		mMessage = "Tie!";
+		return true;
+	}
+	if (mBoard->getFreeTiles()->size() <= 0)
+	{
+		mMessage = "Tie!";
+		return true;
+	}
 
 	return false;
 }
@@ -63,6 +80,8 @@ int WinSystem::countVertical(PlayerSystem* player)
     Vector2i lastMove = player->getLastMove()->getComponent<BoardComponent>()->getPosition();
     vector<GameObject*>* marks = player->getMarks();
     int x = lastMove.x;
+	Vector2i up(lastMove.x, lastMove.y);
+	Vector2i down(lastMove.x, lastMove.y);
 
     // down
     for (int i = 1; i < mBoard->getSize().y; i++)
@@ -78,9 +97,12 @@ int WinSystem::countVertical(PlayerSystem* player)
             if (mark.x == x && mark.y == y)
             {
                 longestLine++;
-				if (player->getLongestVertical().length <= longestLine)
-					player->setLongestVertical(mark.x, mark.y, player->getLongestVertical().x2, player->getLongestVertical().y2, longestLine);
-                found = true;
+				/*
+				if (player->getLongestVertical().length < longestLine)
+					player->setLongestVertical(mark.x, player->getLongestVertical().y1, mark.x, mark.y, longestLine);
+                */
+				down = mark;
+				found = true;
             }
         }
         if (!found)
@@ -101,14 +123,16 @@ int WinSystem::countVertical(PlayerSystem* player)
             if (mark.x == x && mark.y == y)
             {
                 longestLine++;
-				if (player->getLongestVertical().length <= longestLine)
-					player->setLongestVertical(player->getLongestVertical().x1, player->getLongestVertical().y1, mark.x, mark.y, longestLine);
-                found = true;
+				up = mark;
+				found = true;
             }
         }
         if (!found)
             break;
     }
+
+	if (player->getLongestVertical().length <= longestLine)
+		player->setLongestVertical(up.x, up.y, down.x, down.y, longestLine);
 
     return longestLine;
 }
@@ -118,7 +142,10 @@ int WinSystem::countHorizontal(PlayerSystem* player)
     int longestLine = 1;
     Vector2i lastMove = player->getLastMove()->getComponent<BoardComponent>()->getPosition();
     vector<GameObject*>* marks = player->getMarks();
-    int y = lastMove.y;
+	int y = lastMove.y;
+
+	Vector2i right(lastMove.x, lastMove.y);
+	Vector2i left(lastMove.x, lastMove.y);
 
     //right
     for (int i = 1; i < mBoard->getSize().x; i++)
@@ -134,9 +161,8 @@ int WinSystem::countHorizontal(PlayerSystem* player)
             if (mark.x == x && mark.y == y)
             {
                 longestLine++;
-				if (player->getLongestHorizontal().length <= longestLine)
-					player->setLongestHorizontal(player->getLongestHorizontal().x1, player->getLongestHorizontal().y1, mark.x, mark.y, longestLine);
-                found = true;
+				right = mark;
+				found = true;
             }
         }
         if (!found)
@@ -157,14 +183,16 @@ int WinSystem::countHorizontal(PlayerSystem* player)
             if (mark.x == x && mark.y == y)
             {
                 longestLine++;
-				if (player->getLongestHorizontal().length <= longestLine)
-					player->setLongestHorizontal(mark.x, mark.y, player->getLongestHorizontal().x2, player->getLongestHorizontal().y2, longestLine);
-                found = true;
+				left = mark;
+				found = true;
             }
         }
         if (!found)
             break;
     }
+
+	if (player->getLongestHorizontal().length <= longestLine)
+		player->setLongestHorizontal(left.x, left.y, right.x, right.y, longestLine);
 
     return longestLine;
 }

@@ -80,3 +80,13 @@ bool Board::isTileFree(Vector2i position)
     }
     return false;
 }
+
+bool Board::isTileOutBounds(Vector2i position)
+{
+	if (position.x < 0 || position.y < 0 ||
+		position.x > mSize.x ||
+		position.y > mSize.y
+		)
+		return true;
+	return false;
+}

@@ -7,16 +7,21 @@
 #include <vector>
 #include <string>
 
+enum LineDirection {
+	Horizontal, Vertical, Diagonal1, Diagonal2
+};
+
+struct LongestLine {
+	LineDirection dir;
+	int x1;
+	int y1;
+	int x2;
+	int y2;
+	int length;
+};
+
 class PlayerSystem
 {
-	struct longestLine {
-
-		int x1;
-		int y1;
-		int x2;
-		int y2;
-		int length;
-	};
 public:
 	PlayerSystem(sf::Texture* texture, sf::Color color);
 	~PlayerSystem();
@@ -30,21 +35,25 @@ public:
 	std::vector<GameObject*>* getMarks(){ return &mMyMarks; };
 	GameObject* getLastMove() { return mLastMove; };
 
-    int getLongestLineLength();
+	LongestLine* getBestLine();
 
 	void setLongestVertical(int x1, int y1, int x2, int y2, int length);
-	longestLine getLongestVertical(){ return verticalLine; };
+	LongestLine getLongestVertical(){ return verticalLine; };
 
 	void setLongestHorizontal(int x1, int y1, int x2, int y2, int length);
-	longestLine getLongestHorizontal(){ return horizontalLine; };
+	LongestLine getLongestHorizontal(){ return horizontalLine; };
+
+	bool isTileMine(sf::Vector2i position);
+	bool isTileOpponents(sf::Vector2i position);
 
 protected:
     void addMark(sf::Vector2i tilePosition);
+	void initializeLongestLines(sf::Vector2i position);
 
-	longestLine verticalLine;
-	longestLine horizontalLine;
-    longestLine diagonalLine1; // left up -> right down
-    longestLine diagonalLine2; //right up -> left down
+	LongestLine verticalLine;
+	LongestLine horizontalLine;
+    LongestLine diagonalLine1; // left up -> right down
+    LongestLine diagonalLine2; //right up -> left down
 
 	std::vector<GameObject*> mMyMarks;
 	PlayerSystem* mOpponent;
