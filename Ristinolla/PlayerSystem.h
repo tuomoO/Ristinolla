@@ -30,6 +30,8 @@ public:
 	std::vector<GameObject*>* getMarks(){ return &mMyMarks; };
 	GameObject* getLastMove() { return mLastMove; };
 
+    int getLongestLineLength();
+
 	void setLongestVertical(int x1, int y1, int x2, int y2, int length);
 	longestLine getLongestVertical(){ return verticalLine; };
 
@@ -41,6 +43,8 @@ protected:
 
 	longestLine verticalLine;
 	longestLine horizontalLine;
+    longestLine diagonalLine1; // left up -> right down
+    longestLine diagonalLine2; //right up -> left down
 
 	std::vector<GameObject*> mMyMarks;
 	PlayerSystem* mOpponent;

@@ -25,6 +25,8 @@ void PlayerSystem::initialize(Board* board, PlayerSystem* opponent)
 	mBoard = board;
 	verticalLine.length = 0;
 	horizontalLine.length = 0;
+    diagonalLine1.length = 0;
+    diagonalLine2.length = 0;
 
 	mInitialized = true;
 }
@@ -36,7 +38,21 @@ void PlayerSystem::addMark(Vector2i tilePosition)
     obj->add(mRenderFactory->make(mBoard->getTileSize()));
     obj->add(boardFactory.make(tilePosition));
     mMyMarks.push_back(obj);
+    mBoard->markTile(tilePosition);
     mLastMove = obj;
+}
+
+int PlayerSystem::getLongestLineLength()
+{
+    int result = verticalLine.length;
+    if (horizontalLine.length > result)
+        result = horizontalLine.length;
+    if (diagonalLine1.length > result)
+        result = diagonalLine1.length;
+    if (diagonalLine2.length > result)
+        result = diagonalLine1.length;
+
+    return result;
 }
 
 void PlayerSystem::setLongestVertical(int x1, int y1, int x2, int y2, int length)

@@ -34,7 +34,6 @@ bool HumanSystem::checkClickPos()
 			if ((*i)->getComponent<BoardComponent>()->getPosition() == tilePosition)
 			{
 				addMark(tilePosition);
-				mBoard->markTile(tilePosition);
 				return true;
 			}
 		}

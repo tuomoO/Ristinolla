@@ -14,6 +14,7 @@ public:
 private:
     bool blockOpponent();
     bool makeLine();
+    bool randomMove();
 
 };
 

@@ -29,6 +29,12 @@ bool WinSystem::update(int turn, PlayerSystem* player)
 		mMessage = "Tie!";
 		return true;
 	}
+    if (mBoard->getFreeTiles()->size() <= 0)
+    {
+        mMessage = "Tie!";
+        return true;
+    }
+
 	return false;
 }
 

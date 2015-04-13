@@ -70,3 +70,13 @@ void Board::markTile(sf::Vector2i position)
 		}
 	}
 }
+
+bool Board::isTileFree(Vector2i position)
+{
+    for (Ite i = mFreeTiles.begin(); i != mFreeTiles.end(); i++)
+    {
+        if ((*i)->getComponent<BoardComponent>()->getPosition() == position)
+            return true;
+    }
+    return false;
+}

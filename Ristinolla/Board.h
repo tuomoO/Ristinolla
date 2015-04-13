@@ -23,6 +23,7 @@ public:
 	int getWinLineLength() { return mWinLineLength; };
 	std::string getMessage();
 	void markTile(sf::Vector2i position);
+    bool isTileFree(sf::Vector2i position);
 
 private:
 	std::vector<GameObject*> mTiles;

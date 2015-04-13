@@ -79,12 +79,18 @@ int main()
 		//draw
 		if (game != nullptr)
 		{
+
 			message.setString(game->getMessage());
 			game->draw(&renderSystem);
 			window.draw(message);
 
-			if (!game->isRunning())
-				resetButton.draw(&window);
+            if (!game->isRunning())
+            {
+                message.setString(game->getMessage());
+                window.draw(message);
+                resetButton.draw(&window);
+            }
+				
 		}
 		else
 			menu->draw();
