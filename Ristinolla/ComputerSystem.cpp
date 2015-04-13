@@ -39,37 +39,44 @@ bool ComputerSystem::makeLine()
 	Vector2i tilePosition(-1, -1);
 	LongestLine* best = getBestLine();
 
-	/*
 	if (best->length <= 1)
 	{
 		tilePosition = mLastMove->getComponent<BoardComponent>()->getPosition();
-		
-	}
-	*/
+		vector<GameObject*>* freeTiles = mBoard->getFreeTiles();
+		vector<Vector2i> options;
+		Vector2i target = mLastMove->getComponent<BoardComponent>()->getPosition();
+		if (target.x < 0)
+			target.x = 0;
+		if (target.y < 0)
+			target.y = 0;
+		if (target.x > mBoard->getSize().x - 1)
+			target.x = mBoard->getSize().x - 1;
+		if (target.y > mBoard->getSize().y - 1)
+			target.y = mBoard->getSize().y - 1;
 
-	switch (best->dir)
+		for (Ite i = freeTiles->begin(); i < freeTiles->end(); i++)
+		{
+			Vector2i pos = (*i)->getComponent<BoardComponent>()->getPosition();
+			if (abs(target.x - pos.x) <= 1 && abs(target.y - pos.y) <= 1)
+				options.push_back(pos);
+		}
+		//no free tiles around last move
+		if (options.empty())
+			return false;
+
+		tilePosition = options.at(rand() % options.size());
+	}
+	else
 	{
-	case Vertical:
-			// block up
+		switch (best->dir)
+		{
+		case Vertical:
+			// up
 			tilePosition = Vector2i(getLongestVertical().x1, getLongestVertical().y1 - 1);
 			if (isTileOpponents(tilePosition) || !mBoard->isTileFree(tilePosition) || mBoard->isTileOutBounds(tilePosition))
 			{
-				//down
+				// check down
 				tilePosition = Vector2i(getLongestVertical().x2, getLongestVertical().y2 + 1);
-				for (int i = 1; i < mBoard->getSize().y; i++)
-				{
-					if (isTileOpponents(tilePosition + Vector2i(0, -i)) || mBoard->isTileOutBounds(tilePosition + Vector2i(0, -i)))
-						break;
-					else if (mBoard->isTileFree(tilePosition))
-					{
-						tilePosition.y -= i;
-						break;
-					}
-				}
-			}
-			else if (isTileMine(tilePosition))
-			{
-				//up
 				for (int i = 1; i < mBoard->getSize().y; i++)
 				{
 					if (isTileOpponents(tilePosition + Vector2i(0, i)) || mBoard->isTileOutBounds(tilePosition + Vector2i(0, i)))
@@ -81,53 +88,63 @@ bool ComputerSystem::makeLine()
 					}
 				}
 			}
-
-		break;
-
-	case Horizontal:
-		/*
-		tilePosition = Vector2i(getLongestHorizontal().x1 - 1, getLongestHorizontal().y1);
-		if (!mBoard->isTileFree(tilePosition) || mBoard->isTileOutBounds(tilePosition))
-			tilePosition = Vector2i(getLongestHorizontal().x2 + 1, getLongestHorizontal().y2);
-		*/
-		tilePosition = Vector2i(getLongestHorizontal().x1 - 1, getLongestHorizontal().y1);
-		if (isTileOpponents(tilePosition) || !mBoard->isTileFree(tilePosition) || mBoard->isTileOutBounds(tilePosition))
-		{
-			//right
-			tilePosition = Vector2i(getLongestHorizontal().x2 +1, getLongestHorizontal().y2);
-			for (int i = 1; i < mBoard->getSize().x; i++)
+			// check up
+			else if (isTileMine(tilePosition))
 			{
-				if (isTileOpponents(tilePosition + Vector2i(-i, 0)) || mBoard->isTileOutBounds(tilePosition + Vector2i(-i, 0)))
-					break;
-				else if (mBoard->isTileFree(tilePosition))
+				for (int i = 1; i < mBoard->getSize().y; i++)
 				{
-					tilePosition.x -= i;
-					break;
+					if (isTileOpponents(tilePosition + Vector2i(0, -i)) || mBoard->isTileOutBounds(tilePosition + Vector2i(0, -i)))
+						break;
+					else if (mBoard->isTileFree(tilePosition))
+					{
+						tilePosition.y -= i;
+						break;
+					}
 				}
 			}
-		}
-		else if (isTileMine(tilePosition))
-		{
-			//left
-			for (int i = 1; i < mBoard->getSize().x; i++)
+
+			break;
+
+		case Horizontal:
+			// left
+			tilePosition = Vector2i(getLongestHorizontal().x1 - 1, getLongestHorizontal().y1);
+			if (isTileOpponents(tilePosition) || !mBoard->isTileFree(tilePosition) || mBoard->isTileOutBounds(tilePosition))
 			{
-				if (isTileOpponents(tilePosition + Vector2i(i, 0)) || mBoard->isTileOutBounds(tilePosition + Vector2i(i, 0)))
-					break;
-				else if (mBoard->isTileFree(tilePosition))
+				// check right
+				tilePosition = Vector2i(getLongestHorizontal().x2 + 1, getLongestHorizontal().y2);
+				for (int i = 1; i < mBoard->getSize().x; i++)
 				{
-					tilePosition.x += i;
-					break;
+					if (isTileOpponents(tilePosition + Vector2i(i, 0)) || mBoard->isTileOutBounds(tilePosition + Vector2i(i, 0)))
+						break;
+					else if (mBoard->isTileFree(tilePosition))
+					{
+						tilePosition.x += i;
+						break;
+					}
 				}
 			}
-		}
-		
-		break;
+			// check left
+			else if (isTileMine(tilePosition))
+			{
+				for (int i = 1; i < mBoard->getSize().x; i++)
+				{
+					if (isTileOpponents(tilePosition + Vector2i(-i, 0)) || mBoard->isTileOutBounds(tilePosition + Vector2i(-i, 0)))
+						break;
+					else if (mBoard->isTileFree(tilePosition))
+					{
+						tilePosition.x -= i;
+						break;
+					}
+				}
+			}
 
-	default:
-		return false;
+			break;
+
+		default:
+			return false;
+		}
 	}
 	// Make sure its not out of the board
-
 	if (mBoard->isTileOutBounds(tilePosition))
 		return false;
 	if (!mBoard->isTileFree(tilePosition))
@@ -154,7 +171,7 @@ bool ComputerSystem::blockOpponent()
 	switch (best->dir)
 	{
 	case Vertical:
-		if (mOpponent->getLongestVertical().length > 0)
+		if (mOpponent->getLongestVertical().length > 1)
 		{
 			// block up
 			tilePosition = Vector2i(mOpponent->getLongestVertical().x1, mOpponent->getLongestVertical().y1 - 1);
@@ -164,7 +181,7 @@ bool ComputerSystem::blockOpponent()
         break;
 
 	case Horizontal:
-		if (mOpponent->getLongestHorizontal().length > 0)
+		if (mOpponent->getLongestHorizontal().length > 1)
 		{
 			// block left
 			tilePosition = Vector2i(mOpponent->getLongestHorizontal().x1 - 1, mOpponent->getLongestHorizontal().y1);

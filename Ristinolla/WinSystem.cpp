@@ -16,26 +16,6 @@ WinSystem::~WinSystem()
 
 bool WinSystem::update(int turn, PlayerSystem* player)
 {
-	/*
-	if (turn >= (mBoard->getWinLineLength() * 2) -1)
-	{
-        if (countLongestLine(player) >= mBoard->getWinLineLength())
-		{
-			turn % 2 == 0 ? mMessage = "Player 2 wins!" : mMessage = "Player 1 wins!";
-			return true;
-		}
-	}
-	else if (turn >= mBoard->getSize().x * mBoard->getSize().y)
-	{
-		mMessage = "Tie!";
-		return true;
-	}
-    if (mBoard->getFreeTiles()->size() <= 0)
-    {
-        mMessage = "Tie!";
-        return true;
-    }
-	*/
 	if (countLongestLine(player) >= mBoard->getWinLineLength())
 	{
 		turn % 2 == 0 ? mMessage = "Player 2 wins!" : mMessage = "Player 1 wins!";
@@ -97,10 +77,6 @@ int WinSystem::countVertical(PlayerSystem* player)
             if (mark.x == x && mark.y == y)
             {
                 longestLine++;
-				/*
-				if (player->getLongestVertical().length < longestLine)
-					player->setLongestVertical(mark.x, player->getLongestVertical().y1, mark.x, mark.y, longestLine);
-                */
 				down = mark;
 				found = true;
             }
