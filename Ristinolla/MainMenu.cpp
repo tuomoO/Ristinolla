@@ -93,7 +93,7 @@ void MainMenu::buttonAction(int selection)
 		break;
 
 	case 5:
-		mBoard = new Board(25, 25, 5, 24, 2);
+		mBoard = new Board(25, 25, 6, 24, 2);
 		switchButtons();
 		break;
 
@@ -127,7 +127,7 @@ void MainMenu::switchButtons()
 		mButtons.clear();
 		mButtons.push_back(Button(3, mFont, "3 x 3 - row of 3", x, 0.2f * y));
 		mButtons.push_back(Button(4, mFont, "8 x 8 - row of 5", x, 0.4 * y));
-		mButtons.push_back(Button(5, mFont, "25 x 25 - row of 5", x, 0.6 * y));
+		mButtons.push_back(Button(5, mFont, "25 x 25 - row of 6", x, 0.6 * y));
 		mButtons.push_back(Button(6, mFont, "50 x 50 - row of 10", x, 0.8 * y));
 	}
 

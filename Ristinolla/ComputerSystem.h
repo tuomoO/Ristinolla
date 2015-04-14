@@ -12,9 +12,10 @@ public:
     std::string getMessage() { return " is thinking."; };
 
 private:
+	bool makeLine();
+	bool startNewLine();
+	bool randomMove();
     bool blockOpponent();
-    bool makeLine();
-    bool randomMove();
 
 };
 
