@@ -111,6 +111,24 @@ void PlayerSystem::setLongestHorizontal(int x1, int y1, int x2, int y2, int leng
 	horizontalLine.length = length;
 }
 
+void PlayerSystem::setLongestDiagonal1(int x1, int y1, int x2, int y2, int length)
+{
+	diagonalLine1.x1 = x1;
+	diagonalLine1.y1 = y1;
+	diagonalLine1.x2 = x2;
+	diagonalLine1.y2 = y2;
+	diagonalLine1.length = length;
+}
+
+void PlayerSystem::setLongestDiagonal2(int x1, int y1, int x2, int y2, int length)
+{
+	diagonalLine2.x1 = x1;
+	diagonalLine2.y1 = y1;
+	diagonalLine2.x2 = x2;
+	diagonalLine2.y2 = y2;
+	diagonalLine2.length = length;
+}
+
 bool PlayerSystem::isTileMine(Vector2i position)
 {
 	for (Ite i = mMyMarks.begin(); i != mMyMarks.end(); i++)
@@ -136,6 +154,40 @@ void PlayerSystem::highlightLine()
 {
     //todo marks in between
     LongestLine* best = getBestLine();
-    mBoard->removeTile(best->x1, best->y1);
-    mBoard->removeTile(best->x2, best->y2);
+	int x = best->x1;
+	int y = best->y1;
+	switch (best->dir)
+	{
+	case Horizontal:
+		for (int i = best->x1; i < best->x2; i++)
+		{
+			mBoard->highLightTile(i, best->y1);
+		}
+		break;
+
+	case Vertical:
+		for (int i = best->y1; i < best->y2; i++)
+		{
+			mBoard->highLightTile(best->x1, i);
+		}
+		break;
+
+	case Diagonal1:
+		for (int i = 0; x + i < best->x2; i++)
+		{
+			mBoard->highLightTile(x + i, y + i);
+		}
+		break;
+
+	case Diagonal2:
+		for (int i = 0; x + i < best->x2; i++)
+		{
+			mBoard->highLightTile(x + i, y - i);
+		}
+		break;
+
+	default:
+		break;
+	}
+	mBoard->highLightTile(best->x2, best->y2);
 }

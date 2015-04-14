@@ -43,6 +43,12 @@ public:
 	void setLongestHorizontal(int x1, int y1, int x2, int y2, int length);
 	LongestLine getLongestHorizontal(){ return horizontalLine; };
 
+	void setLongestDiagonal1(int x1, int y1, int x2, int y2, int length);
+	LongestLine getLongestDiagonal1(){ return diagonalLine1; };
+
+	void setLongestDiagonal2(int x1, int y1, int x2, int y2, int length);
+	LongestLine getLongestDiagonal2(){ return diagonalLine2; };
+
 	bool isTileMine(sf::Vector2i position);
 	bool isTileOpponents(sf::Vector2i position);
 

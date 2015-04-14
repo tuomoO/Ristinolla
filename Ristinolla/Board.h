@@ -25,7 +25,7 @@ public:
 	void markTile(sf::Vector2i position);
     bool isTileFree(sf::Vector2i position);
 	bool isTileOutBounds(sf::Vector2i position);
-    void removeTile(int x, int y);
+    void highLightTile(int x, int y);
 
 private:
 	std::vector<GameObject*> mTiles;

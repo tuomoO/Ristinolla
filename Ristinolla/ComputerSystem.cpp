@@ -190,6 +190,11 @@ bool ComputerSystem::blockOpponent()
 		}
         break;
 
+	case Diagonal1:
+		break;
+
+	case Diagonal2:
+
     default:
         return false;
 	}

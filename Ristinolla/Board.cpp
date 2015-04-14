@@ -91,7 +91,7 @@ bool Board::isTileOutBounds(Vector2i position)
 	return false;
 }
 
-void Board::removeTile(int x, int y)
+void Board::highLightTile(int x, int y)
 {
     for (Ite i = mTiles.begin(); i != mTiles.end(); i++)
     {

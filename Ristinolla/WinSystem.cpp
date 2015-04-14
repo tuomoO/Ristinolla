@@ -179,6 +179,9 @@ int WinSystem::countDiagonal1(PlayerSystem* player)
     int longestLine = 1;
     Vector2i lastMove = player->getLastMove()->getComponent<BoardComponent>()->getPosition();
     vector<GameObject*>* marks = player->getMarks();
+	
+	Vector2i leftUp(lastMove.x, lastMove.y);
+	Vector2i rightDown(lastMove.x, lastMove.y);
 
     // down
     for (int i = 1; i < mBoard->getSize().y; i++)
@@ -198,6 +201,7 @@ int WinSystem::countDiagonal1(PlayerSystem* player)
             if (mark.x == x && mark.y == y)
             {
                 longestLine++;
+				rightDown = mark;
                 found = true;
             }
         }
@@ -223,12 +227,15 @@ int WinSystem::countDiagonal1(PlayerSystem* player)
             if (mark.x == x && mark.y == y)
             {
                 longestLine++;
+				leftUp = mark;
                 found = true;
             }
         }
         if (!found)
             break;
     }
+	if (player->getLongestDiagonal1().length <= longestLine)
+		player->setLongestDiagonal1(leftUp.x, leftUp.y, rightDown.x, rightDown.y, longestLine);
 
     return longestLine;
 }
@@ -240,6 +247,9 @@ int WinSystem::countDiagonal2(PlayerSystem* player)
     Vector2i lastMove = player->getLastMove()->getComponent<BoardComponent>()->getPosition();
     vector<GameObject*>* marks = player->getMarks();
 
+	Vector2i leftDown(lastMove.x, lastMove.y);
+	Vector2i rightUp(lastMove.x, lastMove.y);
+
     // down
     for (int i = 1; i < mBoard->getSize().y; i++)
     {
@@ -258,6 +268,7 @@ int WinSystem::countDiagonal2(PlayerSystem* player)
             if (mark.x == x && mark.y == y)
             {
                 longestLine++;
+				leftDown = mark;
                 found = true;
             }
         }
@@ -283,12 +294,16 @@ int WinSystem::countDiagonal2(PlayerSystem* player)
             if (mark.x == x && mark.y == y)
             {
                 longestLine++;
+				rightUp = mark;
                 found = true;
             }
         }
         if (!found)
             break;
     }
+	if (player->getLongestDiagonal2().length <= longestLine)
+		player->setLongestDiagonal2(leftDown.x, leftDown.y, rightUp.x, rightUp.y, longestLine);
+
 
     return longestLine;
 }
