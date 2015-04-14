@@ -90,3 +90,14 @@ bool Board::isTileOutBounds(Vector2i position)
 		return true;
 	return false;
 }
+
+void Board::removeTile(int x, int y)
+{
+    for (Ite i = mTiles.begin(); i != mTiles.end(); i++)
+    {
+        if ((*i)->getComponent<BoardComponent>()->getPosition() == Vector2i(x, y))
+        {
+            (*i)->getComponent<RenderComponent>()->setColor(Color::Black);
+        }
+    }
+}

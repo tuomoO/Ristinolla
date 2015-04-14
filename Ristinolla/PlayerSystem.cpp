@@ -131,3 +131,11 @@ bool PlayerSystem::isTileOpponents(Vector2i position)
 	}
 	return false;
 }
+
+void PlayerSystem::highlightLine()
+{
+    //todo marks in between
+    LongestLine* best = getBestLine();
+    mBoard->removeTile(best->x1, best->y1);
+    mBoard->removeTile(best->x2, best->y2);
+}

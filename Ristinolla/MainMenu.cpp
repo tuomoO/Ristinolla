@@ -93,7 +93,7 @@ void MainMenu::buttonAction(int selection)
 		break;
 
 	case 5:
-		mBoard = new Board(50, 50, 10, 12, 1);
+		mBoard = new Board(25, 25, 5, 16, 2);
 		switchButtons();
 		break;
 

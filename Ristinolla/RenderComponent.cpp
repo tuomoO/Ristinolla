@@ -20,3 +20,8 @@ RectangleShape* RenderComponent::getDrawable()
 {
 	return &mShape;
 }
+
+void RenderComponent::setColor(sf::Color color)
+{
+    mShape.setFillColor(color);
+}

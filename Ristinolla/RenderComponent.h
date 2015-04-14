@@ -15,6 +15,7 @@ public:
     void update(float dt);
 
 	sf::RectangleShape* getDrawable();
+    void setColor(sf::Color color);
 
 private:
 	RenderComponent();

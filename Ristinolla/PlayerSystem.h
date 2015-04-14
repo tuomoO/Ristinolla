@@ -46,6 +46,8 @@ public:
 	bool isTileMine(sf::Vector2i position);
 	bool isTileOpponents(sf::Vector2i position);
 
+    void highlightLine();
+
 protected:
     void addMark(sf::Vector2i tilePosition);
 	void initializeLongestLines(sf::Vector2i position);
