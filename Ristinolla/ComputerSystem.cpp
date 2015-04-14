@@ -30,8 +30,6 @@ bool ComputerSystem::update()
 	else if (!makeLine())
 		if (!blockOpponent())
 			return randomMove();
-
-    return true;
 }
 
 bool ComputerSystem::makeLine()
@@ -168,35 +166,47 @@ bool ComputerSystem::blockOpponent()
 {
 	Vector2i tilePosition(-1, -1);
 	LongestLine* best = mOpponent->getBestLine();
+	if (best->length <= 1)
+		return false;
+
 	switch (best->dir)
 	{
 	case Vertical:
-		if (mOpponent->getLongestVertical().length > 1)
-		{
-			// block up
-			tilePosition = Vector2i(mOpponent->getLongestVertical().x1, mOpponent->getLongestVertical().y1 - 1);
-			if (!mBoard->isTileFree(tilePosition) || mBoard->isTileOutBounds(tilePosition))
-				tilePosition = Vector2i(mOpponent->getLongestVertical().x2, mOpponent->getLongestVertical().y2 + 1);	
-		}
-        break;
+		// block up
+		tilePosition = Vector2i(best->x1, best->y1 - 1);
+		if (!mBoard->isTileFree(tilePosition) || mBoard->isTileOutBounds(tilePosition))
+			tilePosition = Vector2i(best->x2, best->y2 + 1);
+		break;
 
 	case Horizontal:
-		if (mOpponent->getLongestHorizontal().length > 1)
-		{
-			// block left
-			tilePosition = Vector2i(mOpponent->getLongestHorizontal().x1 - 1, mOpponent->getLongestHorizontal().y1);
-			if (!mBoard->isTileFree(tilePosition) || mBoard->isTileOutBounds(tilePosition))
-				tilePosition = Vector2i(mOpponent->getLongestHorizontal().x2 + 1, mOpponent->getLongestHorizontal().y2);
-		}
-        break;
+		// block left
+		tilePosition = Vector2i(best->x1 - 1, best->y1);
+		if (!mBoard->isTileFree(tilePosition) || mBoard->isTileOutBounds(tilePosition))
+			tilePosition = Vector2i(best->x2 + 1, best->y2);
+		break;
 
 	case Diagonal1:
+		// block left+up
+		tilePosition = Vector2i(best->x1 - 1, best->y1 - 1);
+		if (!mBoard->isTileFree(tilePosition) || mBoard->isTileOutBounds(tilePosition))
+		{
+			//block right+down
+			tilePosition = Vector2i(best->x2 + 1, best->y2 + 1);
+		}
 		break;
 
 	case Diagonal2:
+		// block left+down
+		tilePosition = Vector2i(best->x1 - 1, best->y1 + 1);
+		if (!mBoard->isTileFree(tilePosition) || mBoard->isTileOutBounds(tilePosition))
+		{
+			//block right+up
+			tilePosition = Vector2i(best->x2 + 1, best->y2 - 1);
+		}
+		break;
 
-    default:
-        return false;
+	default:
+		return false;
 	}
     // Make sure its not out of the board
 
