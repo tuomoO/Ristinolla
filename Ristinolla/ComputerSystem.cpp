@@ -19,7 +19,7 @@ ComputerSystem::~ComputerSystem()
 bool ComputerSystem::update()
 {
 	if (mMyMarks.size() == 0 || getBestLine()->length == 0)
-		return randomMove();
+		return fullRandomMove();
 
 	LongestLine* opBest = mOpponent->getBestLine();
 	LongestLine* myBest = getBestLine();
@@ -28,29 +28,23 @@ bool ComputerSystem::update()
 	if (myBest->length > mBoard->getWinLineLength() - 1)
 	{
 		if (!makeLine())
-		{
 			if (!makeSecondToBest())
 				if (!continueLastLine())
-					return randomMove();
-		}
+						return randomMove();
 	}
-	if (opBest->length > mBoard->getWinLineLength() - 1)
+	else if (opBest->length > mBoard->getWinLineLength() - 1)
 	{
 		if (!blockOpponent())
-		{
 			if (!blockSecondToBest())
 				if (!continueLastLine())
 					return randomMove();
-		}
 	}
 	else if (mOpponent->getBestLine()->length > getBestLine()->length)
 	{
 		if (!blockOpponent())
-		{
 			if (!blockSecondToBest())
 				if (!continueLastLine())
 					return randomMove();
-		}
 	}
 	else if (!makeLine())
 	{
@@ -70,8 +64,6 @@ bool ComputerSystem::makeLine(LongestLine* best)
 	if (best == nullptr)
 		best = getBestLine();
 
-	if (best->length <= 1)
-		return startNewLine();
 	else
 	{
 		switch (best->dir)
@@ -292,6 +284,27 @@ bool ComputerSystem::continueLastLine()
 }
 
 bool ComputerSystem::randomMove()
+{
+	vector<GameObject*>* freeTiles = mBoard->getFreeTiles();
+	vector<Vector2i> options;
+	Vector2i lastMove = Vector2i(getBestLine()->x1, getBestLine()->y1); //mLastMove->getComponent<BoardComponent>()->getPosition();
+
+	for (Ite i = freeTiles->begin(); i < freeTiles->end(); i++)
+	{
+		Vector2i pos = (*i)->getComponent<BoardComponent>()->getPosition();
+		if (abs(lastMove.x - pos.x) <= 0.25f * mBoard->getSize().x && abs(lastMove.y - pos.y) <= 0.25f * mBoard->getSize().y)
+			options.push_back(pos);
+	}
+	if (options.empty())
+		return fullRandomMove();
+
+	int index = rand() % options.size();
+	Vector2i tilePosition = options.at(index);
+	addMark(tilePosition);
+	return true;
+}
+
+bool ComputerSystem::fullRandomMove()
 {
 	vector<GameObject*>* freeTiles = mBoard->getFreeTiles();
 	int index = rand() % freeTiles->size();

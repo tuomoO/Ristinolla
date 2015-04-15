@@ -16,6 +16,7 @@ private:
 	bool startNewLine();
 	bool continueLastLine();
 	bool randomMove();
+	bool fullRandomMove();
 	bool blockOpponent(LongestLine* best = nullptr);
 	bool blockSecondToBest();
 	bool makeSecondToBest();

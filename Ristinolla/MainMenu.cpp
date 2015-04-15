@@ -10,10 +10,10 @@ mPlayer1(nullptr), mPlayer2(nullptr), mBoard(nullptr)
 {
 	mP1Texture = new Texture();
 	mP1Texture->loadFromFile("risti64.png");
-	mP1Texture->setSmooth(false);
+	mP1Texture->setSmooth(true);
 	mP2Texture = new Texture();
 	mP2Texture->loadFromFile("nolla64.png");
-	mP2Texture->setSmooth(false);
+	mP2Texture->setSmooth(true);
 
 	switchButtons();
 }
@@ -67,49 +67,42 @@ void MainMenu::buttonAction(int selection)
 	case 0:
 		mPlayer1 = new HumanSystem(mP1Texture, Color::Blue, mInput);
 		mPlayer2 = new ComputerSystem(mP2Texture, Color::Red);
-		switchButtons();
 		break;
 
 	case 1:
 		mPlayer1 = new HumanSystem(mP1Texture, Color::Blue, mInput);
 		mPlayer2 = new HumanSystem(mP2Texture, Color::Red, mInput);
-		switchButtons();
 		break;
 
 	case 2:
 		mPlayer1 = new ComputerSystem(mP1Texture, Color::Blue);
 		mPlayer2 = new ComputerSystem(mP2Texture, Color::Red);
-		switchButtons();
 		break;
 
 	case 3:
 		mBoard = new Board(3, 3, 3, 128, 8);
-		switchButtons();
 		break;
 
 	case 4:
 		mBoard = new Board(8, 8, 5, 64, 4);
-		switchButtons();
 		break;
 
 	case 5:
 		mBoard = new Board(12, 12, 6, 50, 3);
-		switchButtons();
 		break;
 
 	case 6:
 		mBoard = new Board(25, 25, 8, 24, 2);
-		switchButtons();
 		break;
 
 	case 7:
 		mBoard = new Board(50, 50, 10, 12, 1);
-		switchButtons();
 		break;
 
 	default:
 		break;
 	}
+	switchButtons();
 }
 
 void MainMenu::switchButtons()
