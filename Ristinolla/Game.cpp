@@ -37,7 +37,6 @@ void Game::endOfTurn()
 	{
 		mMessage = mBoard->getMessage() + mWinSystem.getMessage();
 		mRunning = false;
-        mPlayerInTurn->highlightLine();
 	}
 	else
 	{

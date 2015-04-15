@@ -93,11 +93,16 @@ void MainMenu::buttonAction(int selection)
 		break;
 
 	case 5:
-		mBoard = new Board(25, 25, 6, 24, 2);
+		mBoard = new Board(12, 12, 6, 50, 3);
 		switchButtons();
 		break;
 
 	case 6:
+		mBoard = new Board(25, 25, 8, 24, 2);
+		switchButtons();
+		break;
+
+	case 7:
 		mBoard = new Board(50, 50, 10, 12, 1);
 		switchButtons();
 		break;
@@ -125,10 +130,11 @@ void MainMenu::switchButtons()
 	else if (mPlayer1 != nullptr && mPlayer2 != nullptr && mBoard == nullptr)
 	{
 		mButtons.clear();
-		mButtons.push_back(Button(3, mFont, "3 x 3 - row of 3", x, 0.2f * y));
-		mButtons.push_back(Button(4, mFont, "8 x 8 - row of 5", x, 0.4 * y));
-		mButtons.push_back(Button(5, mFont, "25 x 25 - row of 6", x, 0.6 * y));
-		mButtons.push_back(Button(6, mFont, "50 x 50 - row of 10", x, 0.8 * y));
+		mButtons.push_back(Button(3, mFont, "3 x 3 - row of 3", x, 0.15f * y));
+		mButtons.push_back(Button(4, mFont, "8 x 8 - row of 5", x, 0.3 * y));
+		mButtons.push_back(Button(5, mFont, "12 x 12 - row of 6", x, 0.45 * y));
+		mButtons.push_back(Button(6, mFont, "25 x 25 - row of 8", x, 0.6 * y));
+		mButtons.push_back(Button(7, mFont, "50 x 50 - row of 10", x, 0.75 * y));
 	}
 
 	// done

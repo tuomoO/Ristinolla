@@ -21,27 +21,54 @@ bool ComputerSystem::update()
 	if (mMyMarks.size() == 0 || getBestLine()->length == 0)
 		return randomMove();
 
-	if (mOpponent->getBestLine()->length > getBestLine()->length)
+	LongestLine* opBest = mOpponent->getBestLine();
+	LongestLine* myBest = getBestLine();
+
+
+	if (myBest->length > mBoard->getWinLineLength() - 1)
+	{
+		if (!makeLine())
+		{
+			if (!makeSecondToBest())
+				if (!continueLastLine())
+					return randomMove();
+		}
+	}
+	if (opBest->length > mBoard->getWinLineLength() - 1)
 	{
 		if (!blockOpponent())
 		{
-			if (!makeLine())
-				return randomMove();
+			if (!blockSecondToBest())
+				if (!continueLastLine())
+					return randomMove();
+		}
+	}
+	else if (mOpponent->getBestLine()->length > getBestLine()->length)
+	{
+		if (!blockOpponent())
+		{
+			if (!blockSecondToBest())
+				if (!continueLastLine())
+					return randomMove();
 		}
 	}
 	else if (!makeLine())
 	{
-		if (!blockOpponent())
-			return randomMove();
+		if (!makeSecondToBest())
+			if (!blockOpponent())
+				if (!blockSecondToBest())
+					if (!continueLastLine())
+						return randomMove();
 	}
 
 	return true;
 }
 
-bool ComputerSystem::makeLine()
+bool ComputerSystem::makeLine(LongestLine* best)
 {
 	Vector2i tilePosition(-1, -1);
-	LongestLine* best = getBestLine();
+	if (best == nullptr)
+		best = getBestLine();
 
 	if (best->length <= 1)
 		return startNewLine();
@@ -51,11 +78,11 @@ bool ComputerSystem::makeLine()
 		{
 		case Vertical:
 			// up
-			tilePosition = Vector2i(getLongestVertical().x1, getLongestVertical().y1 - 1);
+			tilePosition = Vector2i(best->x1, best->y1 - 1);
 			if (isTileOpponents(tilePosition) || !mBoard->isTileFree(tilePosition) || mBoard->isTileOutBounds(tilePosition))
 			{
 				// check down
-				tilePosition = Vector2i(getLongestVertical().x2, getLongestVertical().y2 + 1);
+				tilePosition = Vector2i(best->x2, best->y2 + 1);
 				for (int i = 1; i < mBoard->getSize().y; i++)
 				{
 					if (isTileOpponents(tilePosition + Vector2i(0, i)) || mBoard->isTileOutBounds(tilePosition + Vector2i(0, i)))
@@ -86,11 +113,11 @@ bool ComputerSystem::makeLine()
 
 		case Horizontal:
 			// left
-			tilePosition = Vector2i(getLongestHorizontal().x1 - 1, getLongestHorizontal().y1);
+			tilePosition = Vector2i(best->x1 - 1, best->y1);
 			if (isTileOpponents(tilePosition) || !mBoard->isTileFree(tilePosition) || mBoard->isTileOutBounds(tilePosition))
 			{
 				// check right
-				tilePosition = Vector2i(getLongestHorizontal().x2 + 1, getLongestHorizontal().y2);
+				tilePosition = Vector2i(best->x2 + 1, best->y2);
 				for (int i = 1; i < mBoard->getSize().x; i++)
 				{
 					if (isTileOpponents(tilePosition + Vector2i(i, 0)) || mBoard->isTileOutBounds(tilePosition + Vector2i(i, 0)))
@@ -208,14 +235,6 @@ bool ComputerSystem::startNewLine()
 	vector<GameObject*>* freeTiles = mBoard->getFreeTiles();
 	vector<Vector2i> options;
 	Vector2i target = mLastMove->getComponent<BoardComponent>()->getPosition();
-	if (target.x < 0)
-		target.x = 0;
-	if (target.y < 0)
-		target.y = 0;
-	if (target.x > mBoard->getSize().x - 1)
-		target.x = mBoard->getSize().x - 1;
-	if (target.y > mBoard->getSize().y - 1)
-		target.y = mBoard->getSize().y - 1;
 
 	for (Ite i = freeTiles->begin(); i < freeTiles->end(); i++)
 	{
@@ -239,6 +258,39 @@ bool ComputerSystem::startNewLine()
 	return true;
 }
 
+bool ComputerSystem::continueLastLine()
+{
+	Vector2i tilePosition(-1, -1);
+	Vector2i lastMove = mLastMove->getComponent<BoardComponent>()->getPosition();
+	vector<GameObject*>* myMarks = mBoard->getFreeTiles();
+	vector<Vector2i> options;
+
+	for (Ite i = myMarks->begin(); i < myMarks->end(); i++)
+	{
+		Vector2i pos = (*i)->getComponent<BoardComponent>()->getPosition();
+		if (abs(lastMove.x - pos.x) <= 1 && abs(lastMove.y - pos.y) <= 1)
+			options.push_back(pos);
+	}
+
+	for (vector<Vector2i>::iterator i = options.begin(); i < options.end(); i++)
+	{
+		Vector2i newPosition = lastMove - *i;
+		if (!mBoard->isTileOutBounds(newPosition) && mBoard->isTileFree(tilePosition))
+		{
+			tilePosition = newPosition;
+			break;
+		}
+	}
+
+	if (mBoard->isTileOutBounds(tilePosition))
+		return false;
+	if (!mBoard->isTileFree(tilePosition))
+		return false;
+
+	addMark(tilePosition);
+	return true;
+}
+
 bool ComputerSystem::randomMove()
 {
 	vector<GameObject*>* freeTiles = mBoard->getFreeTiles();
@@ -249,10 +301,11 @@ bool ComputerSystem::randomMove()
 	return true;
 }
 
-bool ComputerSystem::blockOpponent()
+bool ComputerSystem::blockOpponent(LongestLine* best)
 {
 	Vector2i tilePosition(-1, -1);
-	LongestLine* best = mOpponent->getBestLine();
+	if (best == nullptr)
+		best = mOpponent->getBestLine();
 	if (best->length <= 1)
 		return false;
 
@@ -304,4 +357,42 @@ bool ComputerSystem::blockOpponent()
 
 	addMark(tilePosition);
 	return true;
+}
+
+bool ComputerSystem::blockSecondToBest()
+{
+	LongestLine* best = mOpponent->getBestLine();
+	LongestLine temp;
+	temp.length = 0;
+	LongestLine* second = &temp;
+	
+	if (best->dir != Horizontal && mOpponent->getLongestHorizontal().length > second->length)
+		second = &mOpponent->getLongestHorizontal();
+	if (best->dir != Vertical && mOpponent->getLongestVertical().length > second->length)
+		second = &mOpponent->getLongestVertical();
+	if (best->dir != Diagonal1 && mOpponent->getLongestDiagonal1().length > second->length)
+		second = &mOpponent->getLongestDiagonal1();
+	if (best->dir != Diagonal2 && mOpponent->getLongestDiagonal2().length > second->length)
+		second = &mOpponent->getLongestDiagonal2();
+
+	return blockOpponent(second);
+}
+
+bool ComputerSystem::makeSecondToBest()
+{
+	LongestLine* best = getBestLine();
+	LongestLine temp;
+	temp.length = 0;
+	LongestLine* second = &temp;
+
+	if (best->dir != Horizontal && getLongestHorizontal().length > second->length)
+		second = &getLongestHorizontal();
+	if (best->dir != Vertical && getLongestVertical().length > second->length)
+		second = &getLongestVertical();
+	if (best->dir != Diagonal1 && getLongestDiagonal1().length > second->length)
+		second = &getLongestDiagonal1();
+	if (best->dir != Diagonal2 && getLongestDiagonal2().length > second->length)
+		second = &getLongestDiagonal2();
+
+	return makeLine(second);
 }

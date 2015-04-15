@@ -19,6 +19,7 @@ bool WinSystem::update(int turn, PlayerSystem* player)
 	if (countLongestLine(player) >= mBoard->getWinLineLength())
 	{
 		turn % 2 == 0 ? mMessage = "Player 2 wins!" : mMessage = "Player 1 wins!";
+		player->highlightLine();
 		return true;
 	}
 	if (turn >= mBoard->getSize().x * mBoard->getSize().y)
