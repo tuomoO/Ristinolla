@@ -9,10 +9,10 @@ MainMenu::MainMenu(RenderWindow* window, Input* input, Font* font)
 mPlayer1(nullptr), mPlayer2(nullptr), mBoard(nullptr)
 {
 	mP1Texture = new Texture();
-	mP1Texture->loadFromFile("risti.png");
+	mP1Texture->loadFromFile("risti64.png");
 	mP1Texture->setSmooth(false);
 	mP2Texture = new Texture();
-	mP2Texture->loadFromFile("nolla.png");
+	mP2Texture->loadFromFile("nolla64.png");
 	mP2Texture->setSmooth(false);
 
 	switchButtons();
